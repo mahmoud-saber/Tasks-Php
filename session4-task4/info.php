@@ -46,11 +46,13 @@
 
             <!-- ==================== -->
             <div class="form-check mb-3">
-                <input type="radio" class="form-check-input" id="validationFormCheck3" name="gender">
-                <label class="form-check-label" for="validationFormCheck3">Male</label>
+                <input type="radio" name="gender" value="female">Female
+                <input type="radio" name="gender" value="male">Male
+                <!-- <input type="radio" class="form-check-input" id="validationFormCheck3" name="gender">
+                <label class="form-check-label" for="gender" value="Male">Male</label>
                 <br>
                 <input type="radio" class="form-check-input" id="validationFormCheck3" name="gender">
-                <label class="form-check-label" for="validationFormCheck3">Famle</label>
+                <label class="form-check-label" for="Gender" value="Famle">Famle</label> -->
             </div>
             <!-- ======================= -->
             <div class="form-group p-1">
