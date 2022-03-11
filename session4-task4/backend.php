@@ -15,6 +15,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $gender=Clean($_POST['gender']);
 
     $errors =[];
+    if(isset($_POST['submit'])){
         if(empty($name)){
         $errors['name']="Name is required";
     }
@@ -93,7 +94,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $errors['file']=' file is required...............';
 
     }
-
+    }
     
     if(count($errors) > 0){
         foreach ($errors as $key_errors => $value_errors) {
