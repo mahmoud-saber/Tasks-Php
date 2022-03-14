@@ -1,28 +1,27 @@
 <?php
-session_start();
-function Clean($data){
+
+include_once('dbconnect.php');
+
+    function Clean($data){
     $input =trim($data);
     $input = strip_tags($input);
     $input =stripslashes($input);
     return $input;
     }
- if($_SERVER['REQUEST_METHOD']=='POST'){
+
+    if($_SERVER['REQUEST_METHOD']=='POST'){
         $title = Clean($_POST['title']);
         $content =Clean( $_POST['content']);
         $errors  =[];
-       
 
-        
-            
+    $errors =[];
+    if(isset($_POST['submit'])){
         if(empty($title)){
             $errors['title']= 'The title is required';
         }
         elseif (filter_var($title,FILTER_SANITIZE_STRING)===FALSE) {
            $errors['title']='title is not string'; 
         }
-       
-      
-        ////
         if(empty($content)){
             $errors['content']= 'The content is required';
         }
@@ -30,10 +29,11 @@ function Clean($data){
             $errors['content']='content is not string'; 
          }
 
-        elseif (strlen($content) <50) {//>50
+        elseif (strlen($content) <5) {//>50
             $errors['content']= 'The content length is >50'."<br>";
         }
-    // ///////////////image///////////////
+
+         // ///////////////image///////////////
     if (!empty($_FILES['image']['name'])) {
 
         $imgName    = $_FILES['image']['name'];
@@ -41,23 +41,20 @@ function Clean($data){
         $imgType    = $_FILES['image']['type'];
         $imgSize    = $_FILES['image']['size'];
 
-        # Allowed Extensions 
         $allowedExtensions = ['jpg', 'png','jpeg'];
 
         $imgArray = explode('/', $imgType);
 
-        # Image Extension ...... 
         $imageExtension = end($imgArray);
         if (in_array($imageExtension, $allowedExtensions)) {
 
-            # IMage New Name ...... 
             $FinalName = time() . rand() . '.' . $imageExtension;
 
             $disPath = 'upload/' . $FinalName;
 
 
             if (move_uploaded_file($imgTemName, $disPath)) {
-                echo 'Image Uploaded Succ ';
+                // echo 'Image Uploaded Succ';
             } else {
                 $errors['image']= 'Error try Again';
             }
@@ -68,38 +65,32 @@ function Clean($data){
 
         
         
-    } else {
+     } else {
             $errors['image']= '* Image Required';
         } 
-        /////////////
+
         if(count($errors) > 0){
-            foreach ($errors as $keyerrors => $valueerrors) {
-                echo $keyerrors." : ".$valueerrors."<br>";
+            foreach ($errors as $key_errors => $value_errors) {
+            echo $key_errors.': '.$value_errors."<br>";
             }
-        }else{
-            $_SESSION['info']=['title'=>$title,'content'=>$content,'image'=>$disPath];       
-            if(isset($_SESSION['info'])){
-                if (!file_exists('info.txt')){
-                    $filewrite = fopen("info.txt","w");
-                    fwrite($filewrite,$_SESSION['info']['title']." || ".$_SESSION['info']['content']." || ".$_SESSION['info']['image']."\n");
-                    fclose($filewrite);
-                }
-                
-                  else
-                    {
-                        $fileappend = fopen("info.txt","a");
-                        fwrite($fileappend,$_SESSION['info']['title']." || ".$_SESSION['info']['content']." || ".$_SESSION['info']['image']."\n");
-                        fclose($fileappend);
-                    }
-               
-            }else{
-                echo 'No session with index (info)<br>';
-              }     
-           
-      }
- }
- include 'header.php';
-?>
+        }
+        else{
+            $sql = "insert into info (title,content,image) values (' $title',' $content','$disPath')";
+            $quary = mysqli_query($conn,$sql);
+
+            if(!$quary){
+                // echo 'Raw Inserted';
+                echo 'Error Try Again '.mysqli_error($conn);
+
+            }
+            mysqli_close($conn);
+        }
+    }
+
+
+}
+    include 'header.php';
+    ?>
 
 
 <body>
