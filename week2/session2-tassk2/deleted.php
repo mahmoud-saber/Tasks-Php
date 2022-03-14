@@ -1,7 +1,7 @@
 <?php
 require 'dbconnect.php';
-
    if(isset($_GET['id'])){
+    $id = $_GET['id'];
     $sql = "DELETE FROM `info` WHERE `id`='$id'";
     $quary = mysqli_query($conn,$sql); 
 
