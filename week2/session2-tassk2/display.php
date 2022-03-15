@@ -49,15 +49,20 @@
         <div class="page-header">
             <h1>Read Users </h1>
             <br>
-
-
-
+            <?php
+                
+            if (isset($_SESSION['Message'])) {
+                echo '* ' . $_SESSION['Message'];
+                unset($_SESSION['Message']);
+            }
+            
+            ?>
+            <br>
         </div>
 
         <a href="">+ Account</a>
 
         <table class='table table-hover table-responsive table-bordered'>
-            <!-- creating our table heading -->
             <tr>
                 <th>ID</th>
                 <th>Title</th>
@@ -79,9 +84,9 @@
                 <td><?php echo $raw['id'];?></td>
                 <td><?php echo $raw['title'];?></td>
                 <td><?php echo $raw['content'];?></td>
-                <td> <img src="<?php echo $raw['image'];?>" alt="" width="100px"></td>
+                <td> <img src="<?php echo $raw['image'];?>" alt="" width="80px" height="80px"></td>
                 <td>
-                    <a href='deleted.php' class=' btn btn-danger m-r-1em'>Delete</a>
+                    <a href='deleted.php?id=<?php echo $raw['id']; ?>' class='btn btn-danger m-r-1em'>Delete</a>
                 </td>
 
             </tr>
@@ -101,7 +106,7 @@
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src=" https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <!-- Latest compiled and minified Bootstrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

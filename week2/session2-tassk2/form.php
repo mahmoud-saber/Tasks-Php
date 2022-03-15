@@ -62,9 +62,6 @@ include_once('dbconnect.php');
             $errors['image']= 'InValid Extension .... ';
         }
 
-
-        
-        
      } else {
             $errors['image']= '* Image Required';
         } 
@@ -75,6 +72,10 @@ include_once('dbconnect.php');
             }
         }
         else{
+
+
+
+            
             $sql = "insert into info (title,content,image) values (' $title',' $content','$disPath')";
             $quary = mysqli_query($conn,$sql);
 
