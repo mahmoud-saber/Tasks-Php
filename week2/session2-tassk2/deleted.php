@@ -19,7 +19,7 @@ if($quary){
   }
  
 $_SESSION['Message'] = $message;
-header("Location:display.php");
+header("Location: display.php");
 exit();
    
 ?>
