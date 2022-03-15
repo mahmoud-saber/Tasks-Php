@@ -87,7 +87,7 @@
                 <td> <img src="<?php echo $raw['image'];?>" alt="" width="80px" height="80px"></td>
                 <td>
                     <a href='deleted.php?id=<?php echo $raw['id']; ?>' class='btn btn-danger m-r-1em'>Delete</a>
-                    <a href='#' class='btn btn-primary m-r-1em'>Edite</a>
+                    <a href='edited.php?id=<?php echo $raw['id']; ?>' class='btn btn-primary m-r-1em'>Edite</a>
 
                 </td>
 
