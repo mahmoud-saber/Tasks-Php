@@ -78,6 +78,9 @@ function PrintMessages($message = null){
          $status = false; 
      }
 
+
+    mysqli_close($GLOBALS['con']);
+
      return $status;
  }
 

@@ -7,8 +7,8 @@ require '../helpers/functions.php';
 ##########################################################################################################
 # Fetch Raw Data ..... 
 
-$id = $_GET['id'];
-$sql = "select * from userroles where id = $id";
+$id = $_GET['id_bus'];
+$sql = "select * from bus where id_bus = $id";
 $op  = doQuery($sql);
 $data = mysqli_fetch_assoc($op);
 
@@ -21,14 +21,14 @@ $data = mysqli_fetch_assoc($op);
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     // CODE ..... 
-    $title = Clean($_POST['title']);
+    $model = Clean($_POST['model']);
 
 
     # VALIDATE INPUT ...... 
     $errors = [];
 
-    if (!Validate($title, 'required')) {       //  Validate($title,'required') == false 
-        $errors['Title'] = "Field Required";
+    if (!Validate($model, 'required')) {       
+        $errors['model'] = "Field Required";
     }
 
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         // code ..... 
 
-        $sql = "update userroles set title = '$title' where id = $id";
+        $sql = "update bus set model = '$model' where id_bus = $id";
         $op  =  doQuery($sql);
 
 
@@ -78,7 +78,7 @@ require '../layouts/sidNav.php';
 
             <?php
 
-            PrintMessages('Dashboard / Roles / Edit');
+            PrintMessages('Dashboard / Bus / Edit');
 
             ?>
 
@@ -90,8 +90,9 @@ require '../layouts/sidNav.php';
         <form action="edit.php?id=<?php echo $data['id']; ?>" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
-                <label for="exampleInputName">Title</label>
-                <input type="text" class="form-control" id="exampleInputName" aria-describedby="" name="title" value="<?php echo $data['title']; ?>" placeholder="Enter Role Title">
+                <label for="exampleInputName">Model</label>
+                <input type="text" class="form-control" id="exampleInputName" aria-describedby="" name="model"
+                    value="<?php echo $data['model']; ?>" placeholder="Enter Category Title">
             </div>
 
             <button type="submit" class="btn btn-primary">Update</button>

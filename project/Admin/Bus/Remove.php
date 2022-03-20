@@ -3,10 +3,10 @@
    require '../helpers/DBConnection.php';
    require '../helpers/functions.php';
 
-  $id = $_GET['id']; 
+  $id = $_GET['id_bus']; 
 
   # Call DBRemove Method 
-  $status = DBRemove('userroles',$id); 
+  $status = DBRemove('bus',$id); 
 
 
   if($status){

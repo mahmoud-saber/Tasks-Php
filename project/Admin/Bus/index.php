@@ -6,7 +6,7 @@ require '../helpers/DBConnection.php';
 require '../helpers/functions.php';
 
 # Fetch Data .... 
-$sql = "select * from userroles";
+$sql = "select * from bus";
 $op  = doQuery($sql);
 
 ##########################################################################################################
@@ -27,10 +27,10 @@ require '../layouts/sidNav.php';
     <div class="container-fluid">
         <h1 class="mt-4">Dashboard</h1>
         <ol class="breadcrumb mb-4">
-          
+
             <?php
 
-            PrintMessages('Dashboard/Roles');
+            PrintMessages('Dashboard/buses');
 
             ?>
         </ol>
@@ -43,7 +43,7 @@ require '../layouts/sidNav.php';
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table mr-1"></i>
-                List User System Roles
+                List Categories
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -51,14 +51,14 @@ require '../layouts/sidNav.php';
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Title</th>
+                                <th>model</th>
                                 <th>Control</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>Title</th>
+                                <th>model</th>
                                 <th>Control</th>
                             </tr>
                         </tfoot>
@@ -73,17 +73,19 @@ require '../layouts/sidNav.php';
                             while ($data = mysqli_fetch_assoc($op)) {
 
                             ?>
-                                <tr>
-                                    <td><?php echo $data['id']; ?></td>
-                                    <td><?php echo $data['title']; ?></td>
-                                    <td>
-                                        <a href='Remove.php?id=<?php echo $data['id']; ?>' class='btn btn-danger m-r-1em'>Delete</a>
+                            <tr>
+                                <td><?php echo $data['id_bus']; ?></td>
+                                <td><?php echo $data['model']; ?></td>
+                                <td>
+                                    <a href='Remove.php?id=<?php echo $data['id_bus']; ?>'
+                                        class='btn btn-danger m-r-1em'>Delete</a>
 
-                                        <a href='edit.php?id=<?php echo $data['id']; ?>' class='btn btn-primary m-r-1em'>Edit</a>
-                                    </td>
+                                    <a href='edit.php?id=<?php echo $data['id_bus']; ?>'
+                                        class='btn btn-primary m-r-1em'>Edit</a>
+                                </td>
 
 
-                                </tr>
+                            </tr>
                             <?php
                             }
                             ?>

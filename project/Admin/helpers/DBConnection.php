@@ -3,8 +3,8 @@
 session_start();
 
 $server = "localhost";
-$dbName = "project";
-$dbUser = "root";
+$dbName = "blog";
+$dbUser = "project";
 $dbPassword= "";
 
  $con =   mysqli_connect($server,$dbUser,$dbPassword,$dbName);
