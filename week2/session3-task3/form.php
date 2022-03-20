@@ -33,37 +33,19 @@ include_once('dbconnect.php');
         }
 
          // ///////////////image///////////////
-    if (!empty($_FILES['image']['name'])) {
-
-        $imgName    = $_FILES['image']['name'];
+    if (empty($_FILES['image']['name'])) {
+        $errors['image']= '* Image Required';
+    } else {
         $imgTemName = $_FILES['image']['tmp_name'];
-        $imgType    = $_FILES['image']['type'];
-        $imgSize    = $_FILES['image']['size'];
-
+        $imgType = $_FILES['image']['type'];
         $allowedExtensions = ['jpg', 'png','jpeg'];
-
         $imgArray = explode('/', $imgType);
-
         $imageExtension = end($imgArray);
-        if (in_array($imageExtension, $allowedExtensions)) {
-
-            $FinalName = time() . rand() . '.' . $imageExtension;
-
-            $disPath = 'upload/' . $FinalName;
-
-
-            if (move_uploaded_file($imgTemName, $disPath)) {
-                // echo 'Image Uploaded Succ';
-            } else {
-                $errors['image']= 'Error try Again';
-            }
-        } else {
+        
+        if (!in_array($imageExtension, $allowedExtensions)) {
             $errors['image']= 'InValid Extension .... ';
         }
-
-     } else {
-            $errors['image']= '* Image Required';
-        } 
+     }//===============end image
 
         if(count($errors) > 0){
             foreach ($errors as $key_errors => $value_errors) {
@@ -71,24 +53,25 @@ include_once('dbconnect.php');
             }
         }
         else{
+            $FinalName = time() . rand() . '.' . $imageExtension;
+            $disPath = 'upload/' . $FinalName;
+            if (move_uploaded_file($imgTemName, $disPath)) {
+                $sql = "insert into info (title,content,image) values (' $title',' $content','$disPath')";
+                $quary = mysqli_query($conn,$sql);
 
-
-
-            
-            $sql = "insert into info (title,content,image) values (' $title',' $content','$disPath')";
-            $quary = mysqli_query($conn,$sql);
-
-            if(!$quary){
-                // echo 'Raw Inserted';
-                echo 'Error Try Again '.mysqli_error($conn);
-
+                if($quary){
+                    echo 'Raw Inserted';
+                }
+                else{ echo 'Error Try Again '.mysqli_error($conn);
+                }
+                mysqli_close($conn);
             }
-            mysqli_close($conn);
         }
+        
     }
 
 
-}
+}//end REQUEST_METHOD
     include 'header.php';
     ?>
 

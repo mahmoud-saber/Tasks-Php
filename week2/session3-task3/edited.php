@@ -8,7 +8,7 @@ $id = $_GET['id'];
 $sql = "select * from info where id = $id";
 $quary = mysqli_query($conn,$sql);
 # Fetch Data
-$data = mysqli_fetch_assoc($quary);
+$data= mysqli_fetch_assoc($quary);
 
 
 
@@ -45,37 +45,20 @@ elseif (filter_var($content,FILTER_SANITIZE_STRING )===FALSE) {
 
 elseif (strlen($content) <5) {//>50
     $errors['content']= 'The content length is >50'."<br>";
-}
-///////////////////
+}        // ///////////////image///////////////
 if (!empty($_FILES['image']['name'])) {
 
-    $imgName    = $_FILES['image']['name'];
     $imgTemName = $_FILES['image']['tmp_name'];
-    $imgType    = $_FILES['image']['type'];
-    $imgSize    = $_FILES['image']['size'];
-
+    $imgType = $_FILES['image']['type'];
     $allowedExtensions = ['jpg', 'png','jpeg'];
-
     $imgArray = explode('/', $imgType);
-
     $imageExtension = end($imgArray);
-    if (in_array($imageExtension, $allowedExtensions)) {
-
-        $FinalName = time() . rand() . '.' . $imageExtension;
-
-        $disPath = 'upload/' . $FinalName;
-
-
-        if (move_uploaded_file($imgTemName, $disPath)) {
-            // echo 'Image Uploaded Succ';
-        } else {
-            $errors['image']= 'Error try Again';
-        }
-    } else {
+    
+    if (!in_array($imageExtension, $allowedExtensions)) {
         $errors['image']= 'InValid Extension .... ';
     }
+ }//===============end image
 
- 
 
 
     # Check ......
@@ -89,22 +72,45 @@ if (!empty($_FILES['image']['name'])) {
     }
     } else {
 
+
+      
+
+
+        if (!empty($_FILES['image']['name'])) {
+            $imgTemName = $_FILES['image']['tmp_name'];
+            $FinalName = time() . rand() . '.' . $imageExtension;
+            $disPath = 'upload/' . $FinalName;
+            if (move_uploaded_file($imgTemName, $disPath)) {
+                unlink($disPath); 
+                
+            }
+           
+    
+        } else{
+            $disPath =$data['image'];
+        }
+       
+
+
+
+        
     // code ......
 
-    $sql = "update info set title = '$title' , content = '$content' , image = ' $disPath' where id = $id";
+    $sql = "update info set title = '$title' , content = '$content' , image = '$disPath' where id = $id";
 
 
     $quary = mysqli_query($conn,$sql);
 
     if($quary){
-        unlink($data['image']); 
+
 
         $message = 'Raw Updated';
 
-        # SET SESSION .....
         $_SESSION['Message'] = $message;
 
+
         header("Location: display.php");
+
 
         }else{
         echo 'Error Try Again '.mysqli_error($conn);
@@ -116,10 +122,8 @@ if (!empty($_FILES['image']['name'])) {
  
  
    }//end errors
-  }//end image
- else {
-    $errors['image']= '* Image Required';
-} 
+  
+
 
 }
 
@@ -161,12 +165,9 @@ if (!empty($_FILES['image']['name'])) {
             </div>
 
             <div class="mb-3">
-                <input type="file" class="form-control" aria-label="file example" name="image"
-                    value="<?php echo $data['image']?>">
+                <input type="file" class="form-control" aria-label="file example" name="image">
+                <img src="<?php echo $data['image']?>" alt="" width="50px" height="50px">
             </div>
-
-
-
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
